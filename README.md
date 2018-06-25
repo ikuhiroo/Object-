@@ -24,44 +24,46 @@ workdir : pepper/tools/labelImg
 cmd + s → 名前をつけて保存  
 d → 次の画像へ
 
+*** 
 ### label_map.pbtxtの作成  
 workdir : /pepper/objectdetection  
 outputdir : /pepper/objectdetection/label_map.pbtxt  
 ex) item {id: 1, name: 'pug'}  
 
+*** 
 ### train_with_masks.recordとval_with_masks.recordの作成  
 workdir : /pepper/objectdetection   
 outputdir : /pepper/objectdetection/  
 `$ python create_tf_record.py`  
-
+*** 
 ### Holdout法の分割の仕方をmainメソッド内で設定する
-
+*** 
 ### train_val.txtの作成  
 workdir : pepper/objectdetection  
 outputdir : pepper/objectdetection/annotations/train_val.txt  
 `$ python to_trainval.py`  
-
+*** 
 ### train_val.txtの修正（パスの変更）
 workdir : pepper/objectdetection  
 outputdir : pepper/objectdetection/annotations/train_val.txt  
 `$ python xmltag.py`  
-
+*** 
 ### Object Detection Pipelineのconfigの設定  
 #### model部  
 ・クラス数  
 ・利用するアルゴリズム（検出部分と認識部分）の設定  
 ・ハイパーパラメータ設定  
-
+*** 
 #### train_config部  
 ・バッチサイズ  
 ・最適化手法の設定とハイパーパラメータ設定  
 ・学習済みモデルの設定  
 ・エポック数  
-
+*** 
 #### train_input_reader部  
 ・train_with_masks.recordの保存場所  
 ・label_map.pbtxtの保存場所  
-
+*** 
 #### eval_config部  
 ・サンプル数  
 eval_input_reader部  
@@ -79,7 +81,7 @@ outputdir : train_dir
 ## 評価  
 ### tensorboardを表示  
 `$ tensorboard --logdir=・・・/train`  
-
+*** 
 ### pdファイルの作成  
 workdir : models-master/research  
 outputdir : output_directory/frozen_inference_graph.pb  
@@ -88,7 +90,7 @@ outputdir : output_directory/frozen_inference_graph.pb
 --pipeline_config_path=・・・/config   
 --trained_checkpoint_prefix=・・・/model.ckpt-x  
 --output_directory=・・・/train`  
-
+*** 
 ### jupyter notebookで評価  
 >PATH_TO_CKPT = '・・・/frozen_inference_graph.pb'  
 PATH_TO_LABELS = '・・・/label_map.pbtxt'  
